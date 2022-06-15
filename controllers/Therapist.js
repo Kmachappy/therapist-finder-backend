@@ -22,19 +22,20 @@ async function seed(req, res) {
     try {
         Therapist.deleteMany({}, (err, deletedItems) => {
             Therapist.create(therapistSeedData, (err, data) => {
+              // console.log(data)
                 res.json(data);
             });
         });
     } catch (error) {
+      // console.log("err")
         res.json(error)
     }
-  
 }
 
 // all
 async function all(req, res){
     try {
-      res.json(await Therapist.find({}));
+      res.json(await Therapist.find({}).populate("reviews.reviewedBy"));
     } catch (error) {
       res.status(400).json(error);
     }
